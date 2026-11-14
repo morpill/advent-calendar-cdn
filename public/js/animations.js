@@ -1,4 +1,4 @@
-function createSnowflakes() {
+export function createSnowflakes() {
     const snowflake = document.createElement("div");
     const x = Math.floor(Math.random() * window.innerWidth);
     const duration = Math.floor(Math.random() * 5) + 2;
@@ -13,4 +13,25 @@ function createSnowflakes() {
     }, 1000 * duration);
 }
 
-setInterval(createSnowflakes, 30)
+export function getAnimationSettings() {
+    const settings = {
+        on: true,
+        speed: 30
+    }
+
+    const saved = JSON.parse(localStorage.getItem('advent-calendar/animations')) || {};
+    
+    const final = structuredClone(settings);
+    Object.assign(final, saved);
+    return final;
+}
+
+export function updateAnimationSetting({ ...kwargs }) {
+    const settings = getAnimationSettings();
+    const final = structuredClone(settings)
+    Object.assign(final, kwargs);
+    localStorage.setItem('advent-calendar/animations', JSON.stringify(final));
+    return final;
+}
+
+// setInterval(createSnowflakes, 30)
